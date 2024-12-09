@@ -84,7 +84,7 @@ export default function ClientPage() {
                             <input
                                 className="w-[260px] px-3 py-2 border-[#d1d1d1] bg-[#e6e6e6] rounded-xl"
                                 value={"@" + username}
-                                onChange={(event) => { setUsername(event.target.value.substring(1).replace(/[^a-zA-Z0-9]/g, "")) }}
+                                onChange={(event) => { setUsername(event.target.value.substring(1).replace(/[^a-zA-Z0-9]/g, "").toLowerCase()) }}
                                 placeholder="username:"
                             />
                         </div>
