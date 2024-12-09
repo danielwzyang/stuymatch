@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { register } from "../../utils/supabase/actions"
+import Link from "next/link"
 
 export default function ClientPage() {
     const [step, setStep] = useState(0)
@@ -25,20 +27,25 @@ export default function ClientPage() {
                 else setValid(true)
                 break
             case 1:
-                if (!username || username.length < 3) setValid(false)
+                if (username.length < 3) setValid(false)
                 else setValid(true)
                 break
             case 2:
-                setValid(false)
+                if (password.length < 6) setValid(false)
+                else setValid(true)
                 break
         }
     }, [step, email, username, password])
 
 
-    function next() {
+    async function next() {
         if (step == 2) {
-            // TODO: submit
-            return
+            const response = await register(email, password, username)
+
+            if (response != "success") {
+                setStep(4)
+                return
+            }
         }
 
         setStep(step + 1)
@@ -99,6 +106,21 @@ export default function ClientPage() {
                         </div>
                     </>
                 )
+            case 3:
+                return (
+                    <div className="flex flex-col items-center">
+                        <h1 className="text-center text-2xl my-3">Welcome to StuyMatch!</h1>
+                        <h1 className="text-[#808080] text-sm text-center mb-3 mx-5">Check your email to confirm your account before logging in.</h1>
+                        <Link href="/login" className="border border-[#d1d1d1] bg-[#e6e6e6] hover:bg-[#e1e1e1] px-2 py-1 rounded-xl m-2">Log in</Link>
+                    </div>
+                )
+            case 4:
+                return (
+                    <>
+                        <h1 className="text-center text-2xl my-3">Something went wrong :(</h1>
+                        <h1 className="text-[#808080] text-sm text-center mb-5 mx-5">Reload the page and try again. </h1>
+                    </>
+                )
         }
     }
 
@@ -109,12 +131,12 @@ export default function ClientPage() {
                     {renderStep()}
                 </div>
 
-                <div className="flex relative w-screen max-w-[300px] mx-auto h-14">
+                <div className={"flex relative w-screen max-w-[300px] mx-auto h-14" + (step > 2 ? " hidden" : "")}>
                     <button
                         disabled={step == 0}
                         onClick={back}
                         className={"absolute left-5 border border-[#d1d1d1] bg-[#e6e6e6] rounded-xl px-2 py-1 " +
-                            (step != 0 ? "" : " !text-[#808080]")
+                            (step != 0 ? " hover:bg-[#e1e1e1]" : " text-[#808080]")
                         }>
                         ←
                     </button>
@@ -123,7 +145,7 @@ export default function ClientPage() {
                         disabled={!validNext}
                         onClick={next}
                         className={"absolute right-5 border border-[#d1d1d1] bg-[#e6e6e6] rounded-xl px-2 py-1 " +
-                            (validNext ? "" : " !text-[#808080]")
+                            (validNext ? " hover:bg-[#e1e1e1]" : " text-[#808080]")
                         }>
                         {step == 2 ? "Register" : "→"}
                     </button>

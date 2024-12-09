@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import ClientPage from "./client"
 
 export const metadata: Metadata = {
-    title: "Register",
-    description: "Create an account for StuyMatch",
+    title: "Login",
+    description: "Log in to StuyMatch",
 }
 
 export default function Page() {
