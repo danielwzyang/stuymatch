@@ -20,8 +20,9 @@ export default function ScheduleEditor(props: ScheduleProps) {
     const [currentPeriod, setPeriod] = useState(0)
 
     async function updatePeriod(period: number, value: Class) {
-        periods[period] = value
-        setPeriods(periods)
+        const copy = [...periods]
+        copy[period] = value
+        setPeriods(copy)
     }
 
     function period(e: Class, i: number) {
