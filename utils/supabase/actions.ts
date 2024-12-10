@@ -86,3 +86,103 @@ export async function getClasses(ids: string[]) {
 
     return data
 }
+
+export async function searchPeriod(period: number) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("classes").select("teacher, class").eq("period", period)
+
+    if (error) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    return data
+}
+
+export async function removePeriod(username: string, period: number) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("users").select("*").eq("username", username)
+
+    if (error || data.length == 0) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    const studentData: { username: string, periods: string[] } = data![0]
+
+    studentData.periods[period] = "EMPTY"
+
+    const { error: error2 } = await supabase.from("users").upsert(studentData)
+
+    if (error2) {
+        console.error(error2)
+        // TODO: handle error
+    }
+}
+
+export async function removeStudent(id: string, student: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("classes").select("*").eq("id", id)
+
+    if (error || data.length == 0) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    // could probably come up with a faster way to remove a student but this is the rudimentary way for now
+    const classData: { id: string, students: string[] } = data![0]
+    classData.students.splice(classData.students.indexOf(student), 1)
+
+    const { error: error2 } = await supabase.from("classes").upsert(classData)
+
+    if (error2) {
+        console.error(error2)
+        // TODO: handle error
+    }
+}
+
+export async function addClass(username: string, period: number, id: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("users").select("*").eq("username", username)
+
+    if (error || data.length == 0) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    const studentData: { username: string, periods: string[] } = data![0]
+
+    studentData.periods[period] = id
+
+    const { error: error2 } = await supabase.from("users").upsert(studentData)
+
+    if (error2) {
+        console.error(error2)
+        // TODO: handle error
+    }
+}
+
+export async function addStudent(id: string, student: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("classes").select("*").eq("id", id)
+
+    if (error || data.length == 0) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    const classData: { id: string, students: string[] } = data![0]
+    classData.students.push(student)
+
+    const { error: error2 } = await supabase.from("classes").upsert(classData)
+
+    if (error2) {
+        console.error(error2)
+        // TODO: handle error
+    }
+}
