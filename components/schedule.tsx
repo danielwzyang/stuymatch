@@ -20,9 +20,8 @@ export default function ScheduleEditor(props: ScheduleProps) {
     const [currentPeriod, setPeriod] = useState(0)
 
     async function updatePeriod(period: number, value: Class) {
-        let copy = [...periods]
-        copy[period] = value
-        setPeriods(copy)
+        periods[period] = value
+        setPeriods(periods)
     }
 
     function period(e: Class, i: number) {
@@ -59,13 +58,6 @@ export default function ScheduleEditor(props: ScheduleProps) {
                     </div>
                 </>
             }
-        </div>
-    }
-
-    function periodInSearch(e: Class) {
-        return <div className="flex">
-            <h1>{e.class}</h1>
-            <h1>{e.teacher}</h1>
         </div>
     }
 
