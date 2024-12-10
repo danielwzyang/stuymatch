@@ -90,7 +90,7 @@ export async function getClasses(ids: string[]) {
 export async function searchPeriod(period: number) {
     const supabase = await createClient()
 
-    const { data, error } = await supabase.from("classes").select("teacher, class").eq("period", period)
+    const { data, error } = await supabase.from("classes").select("id, teacher, class").eq("period", period)
 
     if (error) {
         console.error(error)
