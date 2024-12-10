@@ -69,3 +69,20 @@ export async function updatePeriods(username: string, periods: Class[]) {
 
     // TODO: update classes database by looking at the previous class before change and removing the person from that list and adding person to new class list
 }
+
+export async function getClasses(ids: string[]) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("classes").select("teacher, class").in("id", ids).order("period", { ascending: true })
+
+    if (error) {
+        console.error(error)
+        // TODO: handle error
+    }
+
+    ids.forEach((e, i) => {
+        if (e === "EMPTY") data?.splice(i, 0, { teacher: "", class: "EMPTY" })
+    })
+
+    return data
+}

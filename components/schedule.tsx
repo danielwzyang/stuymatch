@@ -16,11 +16,11 @@ export default function ScheduleEditor(props: ScheduleProps) {
     }
 
     function period(e: Class, i: number) {
-        return <div className="flex" key={i + 5}>
+        return <div className="flex" key={i}>
             {
                 e.class === "EMPTY" ? <>
                     <div className="p-3 w-14 border flex items-center justify-center">
-                        {i + 6}
+                        {i + 1}
                     </div>
 
                     <div className="p-3 w-52 h-20 border flex flex-col items-center justify-center">
@@ -30,7 +30,7 @@ export default function ScheduleEditor(props: ScheduleProps) {
                     </div>
                 </> : <>
                     <div className="p-3 w-14 border flex items-center justify-center">
-                        {i + 6}
+                        {i + 1}
                     </div>
 
                     <div className="p-3 w-52 h-20 border flex flex-col items-center justify-center">
@@ -49,7 +49,7 @@ export default function ScheduleEditor(props: ScheduleProps) {
         <>
             <div className="grid sm:grid-cols-2 m-5">
                 <div>{columnOne.map((e: Class, i) => period(e, i))}</div>
-                <div>{columnTwo.map((e: Class, i) => period(e, i))}</div>
+                <div>{columnTwo.map((e: Class, i) => period(e, i + 5))}</div>
             </div>
 
 

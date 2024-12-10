@@ -1,5 +1,5 @@
-import ScheduleEditor from "@/components/schedule"
-import { logout } from "@/utils/supabase/actions"
+import ScheduleEditor, { Class } from "@/components/schedule"
+import { getClasses, logout } from "@/utils/supabase/actions"
 import { createClient } from "@/utils/supabase/server"
 import Link from "next/link"
 
@@ -25,8 +25,8 @@ export default async function Page() {
         }
     }
 
-    if (periods.length == 0)
-        periods = Array(10).fill({ class: "EMPTY" })
+    const classes = await getClasses(periods) || []
+    classes?.forEach(e => e as Class)
 
     return (
         <div className="flex flex-col items-center my-5">
@@ -34,7 +34,7 @@ export default async function Page() {
                 user ? <>
                     <h1 className="text-3xl m-2">Hello, {username}.</h1>
 
-                    <ScheduleEditor username={username} periods={periods} />
+                    <ScheduleEditor username={username} periods={classes} />
 
                     <button onClick={logout} className="border border-[#d1d1d1] bg-[#e6e6e6] hover:bg-[#e1e1e1] rounded-xl px-2 py-1 m-2">Log out</button>
 
