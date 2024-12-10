@@ -75,9 +75,9 @@ export default function ScheduleEditor(props: ScheduleProps) {
                 <div>{periods.slice(5, 10).map((e: Class, i) => period(e, i + 5))}</div>
             </div>
             <div className={"fixed top-0 h-screen w-screen" + (dialogOpen ? " flex" : " hidden")} onClick={() => setOpen(false)}></div>
-            <div className={"z-10 absolute w-72 h-72 bg-[#e6e6e6] border top-[30%] flex flex-col items-center rounded-xl" + (dialogOpen ? " flex" : " hidden")}>
+            <div className={"z-10 absolute w-72 h-72 bg-[#e6e6e6] border top-[20%] flex flex-col items-center rounded-xl" + (dialogOpen ? " flex" : " hidden")}>
                 <h1 className="m-5 text-xl">Period {currentPeriod + 1}</h1>
-                <div className="flex flex-col space-y-3">
+                <div className="space-y-3 mb-5 overflow-y-auto">
                     {
                         currentSearch.length == 0 ?
                             <h1>Loading...</h1> :
