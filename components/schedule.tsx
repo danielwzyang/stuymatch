@@ -1,6 +1,6 @@
 "use client"
 
-import { removePeriod, removeStudent, searchPeriod } from "@/utils/supabase/actions"
+import { removePeriod, removeStudent } from "@/utils/supabase/actions"
 import { useState } from "react"
 
 export interface Class {
