@@ -156,6 +156,9 @@ export async function addClass(username: string, period: number, id: string) {
 
     const studentData: { username: string, periods: string[] } = data![0]
 
+    if (studentData.periods[period] != "EMPTY")
+        return
+
     studentData.periods[period] = id
 
     const { error: error2 } = await supabase.from("users").upsert(studentData)
@@ -177,6 +180,10 @@ export async function addStudent(id: string, student: string) {
     }
 
     const classData: { id: string, students: string[] } = data![0]
+
+    if (student in classData.students)
+        return
+
     classData.students.push(student)
 
     const { error: error2 } = await supabase.from("classes").upsert(classData)
