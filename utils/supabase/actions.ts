@@ -193,3 +193,14 @@ export async function addStudent(id: string, student: string) {
         // TODO: handle error
     }
 }
+
+export default async function getProfile(username: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.from("users").select("periods, following, followers").eq("username", username)
+
+    if (error || data.length == 0)
+        return null
+
+    return data[0]
+}
